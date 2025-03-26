@@ -1,3 +1,4 @@
+import 'package:apps_coin/screen/authentication/Log_in_page.dart/log_in_page.dart';
 import 'package:apps_coin/screen/authentication/signup_page/numregis_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -100,7 +101,9 @@ class _SignUpPageState extends State<SignUpPage> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInPage()));
+                },
                 style: ButtonStyle(
                   padding: WidgetStateProperty.all(
                     EdgeInsets.symmetric(vertical: 13, horizontal: 10),

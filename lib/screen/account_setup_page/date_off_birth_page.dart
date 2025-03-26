@@ -157,7 +157,7 @@ class _DateOffBirthPageState extends State<DateOffBirthPage> {
                     backgroundColor: Color.fromARGB(255, 0, 93, 207),
                     padding: EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(40),
                     ),
                   ),
                   child: Text(

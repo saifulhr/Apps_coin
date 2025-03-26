@@ -1,3 +1,4 @@
+import 'package:apps_coin/screen/pin_setup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:country_picker/country_picker.dart';
@@ -12,6 +13,7 @@ class CountryOffResidencePage extends StatefulWidget {
 
 class _CountryOffResidencePageState extends State<CountryOffResidencePage> {
   Country? _selectedCountry;
+  bool _isLoading = false;
 
   void _showCountryPicker() {
     showCountryPicker(
@@ -23,6 +25,22 @@ class _CountryOffResidencePageState extends State<CountryOffResidencePage> {
         });
       },
     );
+  }
+
+  Future<void> _confirmAndNavigate() async {
+    if (_selectedCountry == null) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    await Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const PinSetupPage()));
+    });
   }
 
   @override
@@ -113,28 +131,42 @@ class _CountryOffResidencePageState extends State<CountryOffResidencePage> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 380,
-              ),
+              const SizedBox(height: 380),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 0, 93, 207),
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                  onPressed: _selectedCountry == null || _isLoading
+                      ? null
+                      : _confirmAndNavigate,
+                  style: ButtonStyle(
+                    padding: WidgetStateProperty.all(
+                      EdgeInsets.symmetric(vertical: 13, horizontal: 10),
+                    ),
+                    backgroundColor: WidgetStateProperty.all(
+                      Color.fromARGB(255, 0, 93, 207),
+                    ),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
                     ),
                   ),
-                  child: Text(
-                    'Confirm',
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: _isLoading
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                          ),
+                        )
+                      : Text(
+                          'Confirm',
+                          style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                        ),
                 ),
               ),
             ],
